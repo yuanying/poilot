@@ -58,7 +58,6 @@ socket.on('connection', function(client) {
     var reload  = message.reload ? true : false;
     var text    = (message.message && message.message.text) ? message.message.text : null;
     message = { 'message': { 'text':text }, 'reload':reload };
-    console.log(json(message));
     client.broadcast(json(message));
     client.send(json(message));
   });
