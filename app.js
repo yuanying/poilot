@@ -54,8 +54,8 @@ socket.on('connection', function(client) {
 
   client.on('message', function(message) {
     // message
-    // client.broadcast(message);
-    // client.send(message);
+    client.broadcast(message);
+    client.send(message);
   });
   client.on('disconnect', function() {
     // disconnect

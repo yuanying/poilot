@@ -1,4 +1,52 @@
+/* @override http://localhost:3000/stylesheets/style.css */
+
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: 0;
 }
+#site, #page, #publication {
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+/* @group site */
+#site h1 {
+	font-size: 12px;
+	display: inline;
+}
+#site .description {
+	color: red;
+	font-size: 10px;
+	display: inline;
+}
+/* @end */
+
+/* @group page */
+form p {
+	margin: 0;
+}
+#text {
+	width: 100%;
+}
+#chat .chatlog {
+	padding: 0.4em;
+	margin: 0.4em 0;
+	background-color: #fdfac8;
+	border-radius: 0.6em;
+	-webkit-box-shadow: 1px 1px 2px #ccc;
+}
+/* @end */
+
+/* @group publications */
+#publication {
+	position: fixed;
+	bottom: 0.6em;
+	right: 0.6em;
+	border-radius: 0.6em;
+	-webkit-box-shadow: 1px 1px 3px #999;
+	text-shadow: 1px 1px 1px #fff;
+	background-color: rgba(161,161,161,0.64);
+}
+/* @end */
+
+

@@ -12,9 +12,9 @@
   <meta name="author" content="Yuanying" /> 
   <meta name="description" content="年とるってのは細胞が老けることであって魂が老けることじゃない。" /> 
 
-  <link rel="stylesheet" href="/css/site.css" type="text/css" media="screen" /> 
-  <link rel="stylesheet" href="/css/iphone.css" type="text/css" media="screen and (max-device-width:480px)" /> 
-  <link rel="stylesheet" href="/css/print.css" type="text/css" media="print" /> 
+  <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" media="screen" /> 
+  <!-- <link rel="stylesheet" href="/css/iphone.css" type="text/css" media="screen and (max-device-width:480px)" /> 
+  <link rel="stylesheet" href="/css/print.css" type="text/css" media="print" />  -->
    
   <!-- Javascripts --> 
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
@@ -26,17 +26,24 @@
  
 <div id='site'> 
   <div class='title'> 
-    <h1 class='name'><a href='/'>Poilot</a></h1> 
+    <h1 class='name'><a href='https://github.com/yuanying/poilot'>Poilot</a></h1> 
     <div class='description'><span id='count'></span> users</div> 
   </div> 
 </div> 
  
 <div id='page'>   
-  
+  <form class='sendForm'>
+    <p>
+      <input id='text' value='' name='text' type='text' />
+    </p>
+    <p>
+      <input type='submit' />
+    </p>
+  </form>
+  <div id='chat'></div>
 <!-- #page --></div> 
  
 <div id='publication'> 
-  <p>&copy; 2004-2011 fraction.jp &amp; Yuanying</p> 
   <p>This website was created with <a href="http://nodejs.org">Node.js</a></p> 
 </div> 
  

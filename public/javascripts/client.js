@@ -1,5 +1,7 @@
-var socket = new io.Socket('localhost'),
-    json = JSON.stringify;
+$(function(){
+var socket = new io.Socket( location.hostname, { port:location.port} );
+var json = JSON.stringify;
+
 socket.connect();
 socket.on('message', function(message) {
   message = JSON.parse(message);
@@ -10,16 +12,23 @@ socket.on('message', function(message) {
     var data = message.message;
     var date = new Date();
     date.setTime(data.time);
-    $('#chat').append('<div class="chatlog"><p><a name=' + data.time + '></a><a href="http://twitter.com/' + data.name + '"><img src="http://api.dan.co.jp/twicon/' + data.name + '/mini" /></a> ' + data.text + '</p><a class="permalink" href="#' + data.time + '">' + date.toString() + '</a></div>')
+    var div = $('<p class="chatlog"></p>');
+    div.text(data.text);
+    $('#chat').prepend(div);
     $('#chat').scrollTop(1000000);
   }
 });
-function send() {
-  var name = $('#name').val();
+
+var send = function(event) {
   var text = $('#text').val();
-  if (text && name && name != "Twitter ID") {
+  if (text) {
     var time = new Date().getTime();
-    socket.send(json({message: {name: name, text: text, time: time}}));
+    socket.send(json({message: {text: text, time: time}}));
     $('#text').val('');
   }
+  return false;
 }
+
+$('.sendForm').bind('submit', send);
+
+});
