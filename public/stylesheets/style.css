@@ -3,6 +3,7 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   margin: 0;
+	background-color: #e7e7e7;
 }
 #site, #page, #publication {
 	padding-left: 1em;
@@ -25,10 +26,12 @@ form p {
 }
 #text {
 	width: 95%;
+	font-size: 1.4em;
 }
 #textArea {
 	width: 95%;
-	height: 3em;
+	height: 4em;
+	font-size: 1.4em;
 }
 .forms {
 	position: relative;
@@ -48,22 +51,25 @@ form p {
 	-webkit-border-top-right-radius: 0.4em;
 	-moz-border-radius-topleft: 0.4em;
 	-moz-border-radius-topright: 0.4em;
-	background-color: #fdf3f1;
+	background-color: #cdcdcd;
 	padding: 0.2em 0.4em;
 	border-top: 1px solid #999;
 	border-left: 1px solid #999;
 	border-right: 1px solid #999;
 }
+.forms li a {
+	color: #fff;
+}
 .forms li.disabled {
 	z-index: 200;
-	background-color: #eae0e0;
+	background-color: #999;
 }
 .forms div {
 	position: relative;
 	z-index: 300;
 	padding: 0.4em;
 	border-radius: 0.4em;
-	background-color: #fdf3f1;
+	background-color: #cdcdcd;
 	border: 1px solid #999;
 }
 .forms div.disabled {
@@ -75,9 +81,11 @@ form p {
 #chat .chatlog {
 	padding: 0.4em;
 	margin: 0.4em 0;
-	background-color: #fdfac8;
+	background-color: #8d8d8d;
 	border-radius: 0.6em;
-	-webkit-box-shadow: 1px 1px 2px #ccc;
+	-webkit-box-shadow: 1px 1px 2px #666;
+	color: #fffeff;
+	text-shadow: 1px 1px 1px #000;
 }
 /* @end */
 
@@ -87,7 +95,7 @@ form p {
 	bottom: 0.6em;
 	right: 0.6em;
 	border-radius: 0.6em;
-	-webkit-box-shadow: 1px 1px 3px #999;
+	-webkit-box-shadow: 1px 1px 3px #666;
 	text-shadow: 1px 1px 1px #fff;
 	background-color: rgba(161,161,161,0.64);
 	padding: 0.4em 1em;
