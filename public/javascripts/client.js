@@ -1,5 +1,6 @@
+var socket;
 $(function(){
-var socket = new io.Socket( location.hostname, { port:location.port} );
+socket = new io.Socket( location.hostname, { port:location.port} );
 var json = JSON.stringify;
 
 socket.connect();
@@ -48,5 +49,11 @@ $('a[href="#textAreaForm"]').bind('click', function() {
   $('#textForm').addClass('disabled');
   return false;
 });
+
+setInterval(function() {
+  if (!socket.connected && !socket.connecting) {
+    socket.connect();
+  }
+}, 1000)
 
 });
