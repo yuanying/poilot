@@ -54,6 +54,6 @@ setInterval(function() {
   if (!socket.connected && !socket.connecting) {
     socket.connect();
   }
-}, 1000)
+}, 1000);
 
 });
