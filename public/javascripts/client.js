@@ -50,11 +50,25 @@ $('a[href="#textAreaForm"]').bind('click', function() {
   return false;
 });
 
+var dotCount = 0;
 setInterval(function() {
   if (socket.connected) {
-    $('.status span').text('connected')
+    dotCount = 0;
+    $('.status span').text('connected');
+  } else if (!socket.connected && socket.connecting) {
+    dotCount++;
+    var dot = '';
+    for (var i = 0; i<dotCount; i++) {
+      dot = dot + '.';
+    }
+    $('.status span').text('connecting' + dot);
+    if (dotCount >= 4) {
+      socket.connect();
+      dotCount = 0;
+    }
   } else if (!socket.connected && !socket.connecting) {
-    $('.status span').text('connecting')
+    $('.status span').text('disconnected');
+    $('.count span').text('0');
     socket.connect();
   }
 }, 1000);
