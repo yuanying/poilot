@@ -31,15 +31,33 @@
   </div> 
 </div> 
  
-<div id='page'>   
-  <form class='sendForm'>
-    <p>
-      <input id='text' value='' name='text' type='text' />
-    </p>
-    <p>
-      <input type='submit' />
-    </p>
-  </form>
+<div id='page'>
+  <div class='forms'>
+    <ul>
+      <li><a href='#textForm'>Simple</a></li>
+      <li class='disabled'><a href='#textAreaForm'>Multi Line</a></li>
+    </ul>
+    <div id='textForm'>
+      <form class='sendForm'>
+        <p>
+          <input id='text' value='' name='text' type='text' />
+        </p>
+        <p>
+          <input type='submit' />
+        </p>
+      </form>
+    </div>
+    <div class='disabled' id='textAreaForm'>
+      <form class='sendForm'>
+        <p>
+          <textarea id='textArea' name='text' /></textarea>
+        </p>
+        <p>
+          <input type='submit' />
+        </p>
+      </form>
+    </div>
+  </div>
   <div id='chat'></div>
 <!-- #page --></div> 
  

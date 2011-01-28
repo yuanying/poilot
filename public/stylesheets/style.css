@@ -22,12 +22,61 @@ body {
 /* @end */
 
 /* @group page */
+
+/* @group form */
+
 form p {
 	margin: 0;
 }
 #text {
-	width: 100%;
+	width: 95%;
 }
+#textArea {
+	width: 95%;
+	height: 3em;
+}
+.forms {
+	position: relative;
+	top: -0.6em;
+}
+.forms ul {
+	margin: 0;
+	margin-right: 1em;
+	text-align: right;
+}
+.forms li {
+	z-index: 400;
+	position: relative;
+	bottom: 1px;
+	display: inline;
+	-webkit-border-top-left-radius: 0.4em;
+	-webkit-border-top-right-radius: 0.4em;
+	-moz-border-radius-topleft: 0.4em;
+	-moz-border-radius-topright: 0.4em;
+	background-color: #fdf3f1;
+	padding: 0.2em 0.4em;
+	border-top: 1px solid #999;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+}
+.forms li.disabled {
+	z-index: 200;
+	background-color: #eae0e0;
+}
+.forms div {
+	position: relative;
+	z-index: 300;
+	padding: 0.4em;
+	border-radius: 0.4em;
+	background-color: #fdf3f1;
+	border: 1px solid #999;
+}
+.forms div.disabled {
+	display: none;
+}
+
+/* @end */
+
 #chat .chatlog {
 	padding: 0.4em;
 	margin: 0.4em 0;
