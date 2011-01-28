@@ -50,8 +50,8 @@ var socket = io.listen(app);
 var count = 0;
 socket.on('connection', function(client) {
   count++;
-  client.broadcast(json({count: count}));
-  client.send(json({count: count}));
+  client.broadcast(json({count: count, 'version':app.version}));
+  client.send(json({count: count, 'version':app.version}));
 
   client.on('message', function(message) {
     // message

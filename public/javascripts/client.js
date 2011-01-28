@@ -13,6 +13,7 @@ socket.on('message', function(message) {
   if (message.count) {
     $('.count span').text(message.count);
   }
+  // $('title').text(poilot.version + " : " + message.version)
   if (message.reload || poilot.version != message.version) {
     location.reload(false);
   }
