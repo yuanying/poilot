@@ -54,8 +54,12 @@ socket.on('connection', function(client) {
 
   client.on('message', function(message) {
     // message
-    client.broadcast(message);
-    client.send(message);
+    message = JSON.parse(message);
+    var reload  = message.reload ? true : false;
+    var text    = (message.message && message.message.text) ? message.text : null;
+    message = { 'message': { 'text':text }, 'reload':reload };
+    client.broadcast(json(message));
+    client.send(json(message));
   });
   client.on('disconnect', function() {
     // disconnect

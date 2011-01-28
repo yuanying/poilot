@@ -9,7 +9,10 @@ socket.on('message', function(message) {
   if (message.count) {
     $('.count span').text(message.count);
   }
-  if (message.message) {
+  if (message.reload) {
+    location.reload(false);
+  }
+  if (message.message && message.message.text) {
     var data = message.message.text;
     var div = null;
     if (data.match(/\n/m)) {
@@ -19,7 +22,6 @@ socket.on('message', function(message) {
     }
     div.text(data);
     $('#chat').prepend(div);
-    $('#chat').scrollTop(1000000);
   }
 });
 
