@@ -7,7 +7,7 @@ socket.connect();
 socket.on('message', function(message) {
   message = JSON.parse(message);
   if (message.count) {
-    $('#count').text(message.count);
+    $('.count span').text(message.count);
   }
   if (message.message) {
     var data = message.message.text;
@@ -51,7 +51,10 @@ $('a[href="#textAreaForm"]').bind('click', function() {
 });
 
 setInterval(function() {
-  if (!socket.connected && !socket.connecting) {
+  if (socket.connected) {
+    $('.status span').text('connected')
+  } else if (!socket.connected && !socket.connecting) {
+    $('.status span').text('connecting')
     socket.connect();
   }
 }, 1000);

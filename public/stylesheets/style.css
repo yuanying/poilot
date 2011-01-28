@@ -14,11 +14,6 @@ body {
 	font-size: 12px;
 	display: inline;
 }
-#site .description {
-	color: red;
-	font-size: 10px;
-	display: inline;
-}
 /* @end */
 
 /* @group page */
@@ -95,6 +90,16 @@ form p {
 	-webkit-box-shadow: 1px 1px 3px #999;
 	text-shadow: 1px 1px 1px #fff;
 	background-color: rgba(161,161,161,0.64);
+	padding: 0.4em 1em;
+}
+#publication .count {
+
+}
+#publication .status {
+	
+}
+#publication p {
+	margin: 0;
 }
 /* @end */
 
