@@ -33,17 +33,20 @@ var send = function(event) {
 }
 
 $('.sendForm').bind('submit', send);
+
 $('a[href="#textForm"]').bind('click', function() {
   $('a[href="#textForm"]').closest('li').removeClass('disabled');
   $('a[href="#textAreaForm"]').closest('li').addClass('disabled');
   $('#textForm').removeClass('disabled');
   $('#textAreaForm').addClass('disabled');
+  return false;
 });
 $('a[href="#textAreaForm"]').bind('click', function() {
   $('a[href="#textAreaForm"]').closest('li').removeClass('disabled');
   $('a[href="#textForm"]').closest('li').addClass('disabled');
   $('#textAreaForm').removeClass('disabled');
   $('#textForm').addClass('disabled');
+  return false;
 });
 
 });
