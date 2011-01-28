@@ -8,6 +8,7 @@ var express = require('express')
   json = JSON.stringify;
 
 var app = module.exports = express.createServer();
+app.version = '0.0.1';
 
 // Configuration
 
@@ -57,7 +58,7 @@ socket.on('connection', function(client) {
     message = JSON.parse(message);
     var reload  = message.reload ? true : false;
     var text    = (message.message && message.message.text) ? message.message.text : null;
-    message = { 'message': { 'text':text }, 'reload':reload };
+    message = { 'message': { 'text':text }, 'reload':reload, 'version':app.version };
     client.broadcast(json(message));
     client.send(json(message));
   });

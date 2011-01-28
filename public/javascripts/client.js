@@ -2,14 +2,18 @@ var socket;
 $(function(){
 socket = new io.Socket( location.hostname, { port:location.port} );
 var json = JSON.stringify;
+var poilot = {};
 
 socket.connect();
 socket.on('message', function(message) {
   message = JSON.parse(message);
+  if (!poilot.version) {
+    poilot.version = message.version;
+  }
   if (message.count) {
     $('.count span').text(message.count);
   }
-  if (message.reload) {
+  if (message.reload || poilot.version != message.version) {
     location.reload(false);
   }
   if (message.message && message.message.text) {
