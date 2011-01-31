@@ -20,7 +20,7 @@ socket.on('message', function(message) {
   if (message.message && message.message.text) {
     var data = message.message.text;
     var div = null;
-    if (data.match(/ /m)) {
+    if (data.match(/　/m)) {
       div = $('<pre class="chatlog aa"></pre>');
       div.text(data);
     } else {
