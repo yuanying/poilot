@@ -65,6 +65,6 @@ socket.on('connection', function(client) {
   client.on('disconnect', function() {
     // disconnect
     count--;
-    client.broadcast(json({count: count}));
+    client.broadcast(json({count: count, 'version':app.version}));
   });
 });
