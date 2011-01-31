@@ -12,7 +12,6 @@ body {
 pre.aa {
 	font-family: Mona, 'IPA MONAPGOTHIC', 'MS PGothic', 'ＭＳ Ｐゴシック', 'MS Pｺﾞｼｯｸ', 'MS Pゴシック', sans-serif;
 	font-size: 10px;
-	overflow: auto;
 }
 
 /* @group site */
@@ -91,6 +90,7 @@ form p {
 	-webkit-box-shadow: 1px 1px 2px #666;
 	color: #fffeff;
 	text-shadow: 1px 1px 1px #000;
+	overflow: auto;
 }
 /* @end */
 
