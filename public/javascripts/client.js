@@ -20,12 +20,14 @@ socket.on('message', function(message) {
   if (message.message && message.message.text) {
     var data = message.message.text;
     var div = null;
-    if (data.match(/\n/m)) {
-      div = $('<pre class="chatlog"></pre>');
+    if (data.match(/ /m)) {
+      div = $('<pre class="chatlog aa"></pre>');
+      div.text(data);
     } else {
       div = $('<p class="chatlog"></p>');
+      div.text(data);
+      div.html(div.html().replace(/\n/mg, '<br/>').replace(/\s/mg, '&nbsp;'));
     }
-    div.text(data);
     $('#chat').prepend(div);
   }
 });
