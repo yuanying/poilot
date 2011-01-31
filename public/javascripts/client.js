@@ -3,6 +3,9 @@ $(function(){
 socket = new io.Socket( location.hostname, { port:location.port} );
 var json = JSON.stringify;
 var poilot = {};
+poilot.title        = 'Poilot';
+poilot.blur         = false;
+poilot.unReadCount  = 0;
 
 socket.connect();
 socket.on('message', function(message) {
@@ -18,6 +21,9 @@ socket.on('message', function(message) {
     location.reload(false);
   }
   if (message.message && message.message.text) {
+    if (poilot.blur) {
+      poilot.unReadCount++;
+    }
     var data = message.message.text;
     var div = null;
     if (data.match(/　/m)) {
@@ -29,6 +35,9 @@ socket.on('message', function(message) {
       div.html(div.html().replace(/\n/mg, '<br/>').replace(/\s/mg, '&nbsp;'));
     }
     $('#chat').prepend(div);
+    if (poilot.unReadCount > 0) {
+      $('title').text('(' + poilot.unReadCount + ') ' + poilot.title);
+    }
   }
 });
 
@@ -81,5 +90,15 @@ setInterval(function() {
     socket.connect();
   }
 }, 1000);
+
+$(window).bind('blur', function() {
+  poilot.blur = true;
+  // $('title').text('(0): ' + poilot.title);
+});
+$(window).bind('focus', function() {
+  poilot.blur = false;
+  poilot.unReadCount = 0;
+  $('title').text(poilot.title);
+});
 
 });
