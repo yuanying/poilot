@@ -34,7 +34,7 @@ pre.aa {
 form p {
 	margin: 0;
 }
-#text {
+#text, #exec {
 	width: 95%;
 	font-size: 1.4em;
 }
@@ -68,10 +68,13 @@ form p {
 	border-left: 1px solid #999;
 	border-right: 1px solid #999;
 }
+.forms li.exec {
+	background-color: #f68a83;
+}
 .forms li a {
 	color: #fff;
 }
-.forms li.disabled {
+.forms li.disabled, .forms li.disabled.exec {
 	z-index: 200;
 	background-color: #999;
 }
@@ -82,6 +85,9 @@ form p {
 	border-radius: 0.4em;
 	background-color: #cdcdcd;
 	border: 1px solid #999;
+}
+.forms div.exec {
+	background-color: #f68a83;
 }
 .forms div.disabled {
 	display: none;
@@ -110,8 +116,25 @@ form p {
 	border-radius: 0.6em;
 	-webkit-box-shadow: 1px 1px 2px #666;
 	color: #fffeff;
+	text-shadow: 1px 1px 1px #666;
+	overflow: auto;
+}
+#chat .evaluated {
+	padding: 0.4em;
+	margin: 0.4em 0;
+	background-color: #9dc892;
+	/*border-radius: 0.6em;*/
+	border: 1px solid #fff;
+	-webkit-box-shadow: 1px 1px 2px #666;
+	color: #fffeff;
 	text-shadow: 1px 1px 1px #000;
 	overflow: auto;
+}
+#chat .evaluated.error {
+	border-radius: 0;
+	background-color: #d3adb2;
+	color: #fffeff;
+	text-shadow: 1px 1px 1px #666;
 }
 /* @end */
 

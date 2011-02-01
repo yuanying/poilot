@@ -8,7 +8,7 @@ var express = require('express')
   json = JSON.stringify;
 
 var app = module.exports = express.createServer();
-app.version = '0.0.5';
+app.version = '0.0.7';
 
 // Configuration
 
@@ -56,6 +56,16 @@ socket.on('connection', function(client) {
     msg.version = app.version;
     return msg;
   }
+  client.execMessage = function(message) {
+    var msg = createDefaultMessage();
+    if (message.exec && message.exec.length < 1000) {
+      msg.exec = message.exec;
+    } else {
+      msg.error = 'message.too_long';
+    }
+    this.broadcast(json(msg));
+    this.send(json(msg));
+  }
   client.sendMessage = function(message) {
     var msg = createDefaultMessage();
     if (message && message.message) {
@@ -92,7 +102,12 @@ socket.on('connection', function(client) {
   client.on('message', function(message) {
     // message
     message = JSON.parse(message);
-    client.sendMessage(message);
+    if (message.message) {
+      client.sendMessage(message);
+    } else if (message.exec) {
+      client.execMessage(message);
+    }
+    
   });
   client.on('disconnect', function() {
     // disconnect

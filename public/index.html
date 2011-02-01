@@ -38,6 +38,7 @@
     <ul>
       <li><a href='#textForm'>Simple</a></li>
       <li class='disabled'><a href='#textAreaForm'>Multi Line</a></li>
+      <li class='exec disabled'><a href='#execForm'>Exec</a></li>
     </ul>
     <div id='textForm'>
       <form class='sendForm'>
@@ -45,7 +46,7 @@
           <input id='text' value='' name='text' type='text' />
         </p>
         <p>
-          <input type='submit' />
+          <input type='submit' value='送信' />
         </p>
       </form>
     </div>
@@ -55,7 +56,17 @@
           <textarea id='textArea' name='text'></textarea>
         </p>
         <p>
-          <input type='submit' />
+          <input type='submit' value='送信' />
+        </p>
+      </form>
+    </div>
+    <div class='exec disabled' id='execForm'>
+      <form class='sendForm'>
+        <p>
+          <input id='exec' value='' name='exec' type='text' />
+        </p>
+        <p>
+          <input type='submit' value='実行' />
         </p>
       </form>
     </div>

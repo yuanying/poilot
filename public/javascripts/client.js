@@ -21,6 +21,18 @@ var appendMessage = function(message) {
   }
   $('#chat').prepend(div);
 }
+var execMessage = function(message) {
+  var div = $('<pre class="evaluated"></pre>');
+  try {
+    var evaluated = eval(message);
+    if (!evaluated) { evaluated = 'null'};
+    div.text(evaluated);
+  } catch (e) {
+    div.text(e.toString());
+    div.addClass('error');
+  }
+  $('#chat').prepend(div);
+}
 var setVersionString = function(poilot) {
   $('.version').text('ver ' + poilot.version);
 }
@@ -64,6 +76,10 @@ socket.on('message', function(message) {
     $('#chat').prepend(div);
   }
   
+  if (message.exec) {
+    execMessage(message.exec);
+  }
+  
   if (message.message && message.message.text) {
     if (poilot.blur) {
       poilot.unReadCount++;
@@ -85,6 +101,11 @@ var send = function(event) {
     socket.send(json({message: {text: text, time: time}}));
     $(this.text).val('');
   }
+  var exec = $(this.exec).val();
+  if (exec) {
+    socket.send(json({exec: exec}));
+    $(this.exec).val('');
+  }
   return false;
 }
 
@@ -93,15 +114,28 @@ $('.sendForm').bind('submit', send);
 $('a[href="#textForm"]').bind('click', function() {
   $('a[href="#textForm"]').closest('li').removeClass('disabled');
   $('a[href="#textAreaForm"]').closest('li').addClass('disabled');
+  $('a[href="#execForm"]').closest('li').addClass('disabled');
   $('#textForm').removeClass('disabled');
   $('#textAreaForm').addClass('disabled');
+  $('#execForm').addClass('disabled');
   return false;
 });
 $('a[href="#textAreaForm"]').bind('click', function() {
   $('a[href="#textAreaForm"]').closest('li').removeClass('disabled');
   $('a[href="#textForm"]').closest('li').addClass('disabled');
+  $('a[href="#execForm"]').closest('li').addClass('disabled');
   $('#textAreaForm').removeClass('disabled');
   $('#textForm').addClass('disabled');
+  $('#execForm').addClass('disabled');
+  return false;
+});
+$('a[href="#execForm"]').bind('click', function() {
+  $('a[href="#textAreaForm"]').closest('li').addClass('disabled');
+  $('a[href="#textForm"]').closest('li').addClass('disabled');
+  $('a[href="#execForm"]').closest('li').removeClass('disabled');
+  $('#textAreaForm').addClass('disabled');
+  $('#textForm').addClass('disabled');
+  $('#execForm').removeClass('disabled');
   return false;
 });
 
