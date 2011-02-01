@@ -105,11 +105,11 @@ form p {
 	text-shadow: 1px 1px 1px #000;
 	overflow: auto;
 }
-#chat .error:before {
+#chat p.error:before {
 	content: '[Error] ';
 	color: #ea9290;
 }
-#chat .error {
+#chat p.error {
 	padding: 0.4em;
 	margin: 0.4em 0;
 	background-color: #d3adb2;
@@ -119,22 +119,25 @@ form p {
 	text-shadow: 1px 1px 1px #666;
 	overflow: auto;
 }
-#chat .evaluated {
+#chat .eval {
 	padding: 0.4em;
-	margin: 0.4em 0;
-	background-color: #9dc892;
-	/*border-radius: 0.6em;*/
-	border: 1px solid #fff;
-	-webkit-box-shadow: 1px 1px 2px #666;
-	color: #fffeff;
-	text-shadow: 1px 1px 1px #000;
+	background-color: #f6f6f6;
+	border: 1px solid #ccc;
 	overflow: auto;
+	margin: 1em 0;
 }
-#chat .evaluated.error {
-	border-radius: 0;
-	background-color: #d3adb2;
-	color: #fffeff;
-	text-shadow: 1px 1px 1px #666;
+#chat .eval .expression:before {
+	content: "> ";
+	font-weight: bold;
+	color: #4865d3;
+}
+#chat .eval .expression {
+	color: #6c8bfe;
+	overflow: visible;
+}
+#chat .eval .result.error {
+	overflow: visible;
+	color: #dd3d67;
 }
 /* @end */
 

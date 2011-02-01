@@ -22,15 +22,20 @@ var appendMessage = function(message) {
   $('#chat').prepend(div);
 }
 var execMessage = function(message) {
-  var div = $('<pre class="evaluated"></pre>');
+  var div = $('<pre class="eval"></pre>');
+  var expression  = $('<div class="expression"></div>');
+  var result      = $('<div class="result"></div>');
+  expression.text(message);
+  div.append(expression);
   try {
     var evaluated = eval(message);
     if (!evaluated) { evaluated = 'null'};
-    div.text(evaluated.toLocaleString());
+    result.text(evaluated.toLocaleString());
   } catch (e) {
-    div.text(e.toString());
-    div.addClass('error');
+    result.text(e.toString());
+    result.addClass('error');
   }
+  div.append(result);
   $('#chat').prepend(div);
 }
 var setVersionString = function(poilot) {
