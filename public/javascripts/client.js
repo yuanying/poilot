@@ -10,6 +10,8 @@ poilot.unReadCount  = 0;
 socket.connect();
 socket.on('message', function(message) {
   message = JSON.parse(message);
+  var div = null;
+  
   if (!poilot.version) {
     poilot.version = message.version;
   }
@@ -17,15 +19,23 @@ socket.on('message', function(message) {
     $('.count span').text(message.count);
   }
   // $('title').text(poilot.version + " : " + message.version)
-  if (message.reload || poilot.version != message.version) {
+  if (poilot.version != message.version) {
     location.reload(false);
+  }
+  if (message.error) {
+    div = $('<p class="error"></p>');
+    if (message.error == 'message.too_long') {
+      div.text('送信したメッセージが長過ぎます。');
+    } else if (message.error == 'message.invalid') {
+      div.text('送信したメッセージが何かおかしいです。リロードしてみてください。');
+    }
+    $('#chat').prepend(div);
   }
   if (message.message && message.message.text) {
     if (poilot.blur) {
       poilot.unReadCount++;
     }
     var data = message.message.text;
-    var div = null;
     if (data.match(/　/m)) {
       div = $('<pre class="chatlog aa"></pre>');
       div.text(data);

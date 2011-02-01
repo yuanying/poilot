@@ -92,6 +92,20 @@ form p {
 	text-shadow: 1px 1px 1px #000;
 	overflow: auto;
 }
+#chat .error:before {
+	content: '[Error] ';
+	color: #ea9290;
+}
+#chat .error {
+	padding: 0.4em;
+	margin: 0.4em 0;
+	background-color: #d3adb2;
+	border-radius: 0.6em;
+	-webkit-box-shadow: 1px 1px 2px #666;
+	color: #fffeff;
+	text-shadow: 1px 1px 1px #000;
+	overflow: auto;
+}
 /* @end */
 
 /* @group publications */

@@ -8,7 +8,7 @@ var express = require('express')
   json = JSON.stringify;
 
 var app = module.exports = express.createServer();
-app.version = '0.0.3';
+app.version = '0.0.4';
 
 // Configuration
 
@@ -49,22 +49,47 @@ if (!module.parent) {
 var socket = io.listen(app);
 var count = 0;
 socket.on('connection', function(client) {
+  var createDefaultMessage = function() {
+    var msg = {};
+    msg.count   = count;
+    msg.version = app.version;
+    return msg;
+  }
+  var sendMessage = function(message) {
+    var msg = createDefaultMessage();
+    if (message && message.message) {
+      if (message && message.message && message.message.text && message.message.time) {
+        if (message.message.text.length < 1000) {
+          msg.message = {};
+          msg.message.text = message.message.text;
+          msg.message.time = message.message.time;
+        } else {
+          msg.error = 'message.too_long';
+        }
+      } else {
+        msg.error = 'message.invalid';
+      }
+      if (msg.error) {
+        client.send(json(msg));
+      } else {
+        client.broadcast(json(msg));
+        client.send(json(msg));
+      }
+    }
+  }
+  
   count++;
-  client.broadcast(json({count: count, 'version':app.version}));
-  client.send(json({count: count, 'version':app.version}));
+  client.broadcast(json(createDefaultMessage()));
+  client.send(json(createDefaultMessage()));
 
   client.on('message', function(message) {
     // message
     message = JSON.parse(message);
-    var reload  = message.reload ? true : false;
-    var text    = (message.message && message.message.text) ? message.message.text : null;
-    message = { 'message': { 'text':text }, 'reload':reload, 'version':app.version };
-    client.broadcast(json(message));
-    client.send(json(message));
+    sendMessage(message);
   });
   client.on('disconnect', function() {
     // disconnect
     count--;
-    client.broadcast(json({count: count, 'version':app.version}));
+    client.broadcast(json(createDefaultMessage()));
   });
 });
