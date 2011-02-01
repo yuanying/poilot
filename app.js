@@ -8,7 +8,7 @@ var express = require('express')
   json = JSON.stringify;
 
 var app = module.exports = express.createServer();
-app.version = '0.0.12';
+app.version = '0.0.13';
 
 // Configuration
 
@@ -50,12 +50,20 @@ var socket  = io.listen(app);
 var count   = 0;
 var buffers = [];
 socket.on('connection', function(client) {
+  client.invalidTime  = 0;
+  client.invalid      = false;
   var createDefaultMessage = function() {
     var msg = {};
     msg.count   = count;
     msg.version = app.version;
+    msg.time    = new Date().getTime();
     return msg;
   }
+  client.sendErrorMessage = function(code) {
+    var msg = createDefaultMessage();
+    msg.error = code;
+    this.send(json(msg));
+  };
   client.execMessage = function(message) {
     var msg = createDefaultMessage();
     if (message.exec && message.exec.length < 1000) {
@@ -69,11 +77,11 @@ socket.on('connection', function(client) {
   client.sendMessage = function(message) {
     var msg = createDefaultMessage();
     if (message && message.message) {
-      if (message && message.message && message.message.text && message.message.time) {
+      if (message && message.message && message.message.text) {
         if (message.message.text.length < 1000) {
           msg.message = {};
           msg.message.text = message.message.text;
-          msg.message.time = message.message.time;
+          msg.message.time = msg.time;
         } else {
           msg.error = 'message.too_long';
         }
@@ -100,12 +108,27 @@ socket.on('connection', function(client) {
   client.send(json(initialMessage));
 
   client.on('message', function(message) {
-    // message
-    message = JSON.parse(message);
-    if (message.message) {
-      client.sendMessage(message);
-    } else if (message.exec) {
-      client.execMessage(message);
+    var currentTime = new Date().getTime();
+    if (client.previousTime + 500 > currentTime) {
+      client.invalidTime++;
+    }
+    client.previousTime = currentTime;
+    
+    if (client.invalidTime == 5 && client.invalid == false) {
+      client.invalid = true;
+      client.sendErrorMessage('message.too_short_interval');
+      setTimeout(function() {
+        client.invalid = false;
+        client.invalidTime = 0;
+      }, 10 * 1000);
+    } else if (client.invalid == false) {
+      // message
+      message = JSON.parse(message);
+      if (message.message) {
+        client.sendMessage(message);
+      } else if (message.exec) {
+        client.execMessage(message);
+      }
     }
     
   });

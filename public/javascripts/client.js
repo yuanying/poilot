@@ -146,6 +146,8 @@ socket.on('message', function(message) {
       div.text('送信したメッセージが長過ぎます。');
     } else if (message.error == 'message.invalid') {
       div.text('送信したメッセージが何かおかしいです。リロードしてみてください。');
+    } else if (message.error == 'message.too_short_interval') {
+      div.text('メッセージの送信間隔が短すぎたため、10秒間メッセージ送信が制限されます。');
     }
     $('#chat').prepend(div);
   }
@@ -171,8 +173,7 @@ socket.on('message', function(message) {
 var send = function(event) {
   var text = $(this.text).val();
   if (text) {
-    var time = new Date().getTime();
-    socket.send(json({message: {text: text, time: time}}));
+    socket.send(json({message: {text: text}}));
     $(this.text).val('');
   }
   var exec = $(this.exec).val();
