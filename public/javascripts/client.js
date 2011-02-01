@@ -13,6 +13,11 @@ var safeWindow      = function() {
   }
   return safeWindow;
 }();
+var createLocaleString = function(string) {
+  return function() {
+    return string;
+  };
+};
 poilot.evalString   = function(string) {
   var document  = {
     location: {},
@@ -32,23 +37,23 @@ poilot.evalString   = function(string) {
   };
   window.poilot = poilot;
   poilot.help = function () {
-    var div = $('<dl class="help" />');
-    for( k in poilot ) {
+    var helpMessage = '';
+    for (k in poilot) {
       if (typeof poilot[k] == 'function') {
-        div.append($('<dt>' + k + '()</dt>'));
-        var dd = $('<dd />');
-        if (poilot[k].hasOwnProperty('description')) {
-          dd.text(poilot[k].description);
-          div.append(dd);
+        if (k == 'help') {
+          helpMessage += 'help() : Show this message.'
         } else {
-          dd.text(poilot[k].toLocaleString());
-          div.append(dd);
+          helpMessage += (k + '() : ');
+          helpMessage += poilot[k].toLocaleString();
+          helpMessage += '\n';
         }
       }
     }
-    $('#chat').prepend(div);
+    return helpMessage;
   }
-  poilot.help.description = 'Show this help.';
+  poilot.help.toLocaleString = function() {
+    return poilot.help();
+  };
   window.$ = jQuery;
   with (window) {
     with (document) {
@@ -58,7 +63,7 @@ poilot.evalString   = function(string) {
     }
   }
 }
-poilot.evalString.description = 'Evaluate argument string.';
+poilot.evalString.toLocaleString = createLocaleString('Evaluate argument string.');
 
 $(function(){
 socket = new io.Socket( location.hostname, { port:location.port} );
@@ -69,13 +74,13 @@ poilot.currentTime  = null;
 poilot.toLocaleString = function () {
   return '[' + this.title + ' ver. ' + this.version + ']';
 };
-poilot.toLocaleString.description = 'Return locale string.';
+poilot.toLocaleString.toLocaleString = createLocaleString('Return locale string.');
 poilot.showImage = function(url) {
   var div = $('<div/>');
   div.html('<img src="' + url + '" style="max-width:100%;height:auto;" />');
   $('#chat').prepend(div);
 };
-poilot.showImage.description = 'Show image from url. (currently unsafe)';
+poilot.showImage.toLocaleString = createLocaleString('Show image from url. (currently unsafe)');
 
 var appendMessage = function(message) {
   var div = null;
