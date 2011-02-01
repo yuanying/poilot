@@ -8,7 +8,7 @@ var express = require('express')
   json = JSON.stringify;
 
 var app = module.exports = express.createServer();
-app.version = '0.0.13';
+app.version = '0.0.14';
 
 // Configuration
 
@@ -117,10 +117,10 @@ socket.on('connection', function(client) {
     if (client.invalidTime == 5 && client.invalid == false) {
       client.invalid = true;
       client.sendErrorMessage('message.too_short_interval');
-      setTimeout(function() {
-        client.invalid = false;
-        client.invalidTime = 0;
-      }, 10 * 1000);
+      // setTimeout(function() {
+      //   client.invalid = false;
+      //   client.invalidTime = 0;
+      // }, 10 * 1000);
     } else if (client.invalid == false) {
       // message
       message = JSON.parse(message);

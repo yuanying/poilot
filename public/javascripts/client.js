@@ -153,7 +153,7 @@ socket.on('message', function(message) {
     } else if (message.error == 'message.invalid') {
       div.text('送信したメッセージが何かおかしいです。リロードしてみてください。');
     } else if (message.error == 'message.too_short_interval') {
-      div.text('メッセージの送信間隔が短すぎたため、10秒間メッセージ送信が制限されます。');
+      div.text('送信間隔の短いメッセージが多数送信されています。意図したメッセージでない可能性があるためメッセージの送信がブロックされました。ページを再読み込みしてください。');
     }
     $('#chat').prepend(div);
   }
