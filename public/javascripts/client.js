@@ -73,9 +73,9 @@ poilot.toLocaleString.description = 'Return locale string.';
 poilot.showImage = function(url) {
   var div = $('<div/>');
   div.html('<img src="' + url + '" style="max-width:100%;height:auto;" />');
-  $('#chat').prepend(div);}
+  $('#chat').prepend(div);
 };
-poilot.showImage.description = 'Show image from url. (currently unsafe)'
+poilot.showImage.description = 'Show image from url. (currently unsafe)';
 
 var appendMessage = function(message) {
   var div = null;
