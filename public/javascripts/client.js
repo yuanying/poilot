@@ -1,8 +1,37 @@
 var socket;
 var json            = JSON.stringify;
 var poilot          = {};
-poilot.evalString = function(string) {
-  return eval(string);
+var blankFunction   = function() {};
+window.evalString   = function(string) {
+  var document  = {
+    location: {},
+    dummy: null
+  };
+  document.write = function(string) {
+    var div = $('<p class="document_write"></p>');
+    div.text(string);
+    $('#chat').prepend(div);
+  };
+  var window = { 
+    confirm: blankFunction,
+    back: blankFunction,
+    close: blankFunction,
+    prompt: blankFunction,
+    open: blankFunction,
+    history: {},
+    document: document,
+    dummy: null
+  };
+  window.alert = function(string) {
+    var div = $('<p class="window_alert"></p>');
+    div.text(string);
+    $('#chat').prepend(div);
+  };
+  with (window) {
+    with (document) {
+      return eval(string);
+    }
+  }
 }
 
 $(function(){
@@ -32,7 +61,7 @@ var execMessage = function(message) {
   expression.text(message);
   div.append(expression);
   try {
-    var evaluated = poilot.evalString(message);
+    var evaluated = window.evalString(message);
     if (!evaluated) { evaluated = 'null'};
     result.text(evaluated.toLocaleString());
   } catch (e) {
@@ -180,17 +209,5 @@ $(window).bind('focus', function() {
   poilot.unReadCount = 0;
   $('title').text(poilot.title);
 });
-
-document.write = function(string) {
-  var div = $('<p class="document_write"></p>');
-  div.text(string);
-  $('#chat').prepend(div);
-}
-
-window.alert = function(string) {
-  var div = $('<p class="window_alert"></p>');
-  div.text(string);
-  $('#chat').prepend(div);
-}
 
 });
