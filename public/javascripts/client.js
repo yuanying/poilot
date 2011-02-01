@@ -21,6 +21,9 @@ var appendMessage = function(message) {
   }
   $('#chat').prepend(div);
 }
+var setVersionString = function(poilot) {
+  $('.version').text('ver ' + poilot.version);
+}
 
 socket.connect();
 socket.on('message', function(message) {
@@ -29,6 +32,7 @@ socket.on('message', function(message) {
   
   if (!poilot.version) {
     poilot.version = message.version;
+    setVersionString(poilot);
   }
   
   if (message.count) {
