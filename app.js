@@ -8,7 +8,7 @@ var express = require('express')
   json = JSON.stringify;
 
 var app = module.exports = express.createServer();
-app.version = '0.0.11';
+app.version = '0.0.12';
 
 // Configuration
 

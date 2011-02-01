@@ -2,6 +2,17 @@ var socket;
 var json            = JSON.stringify;
 var poilot          = {};
 var blankFunction   = function() {};
+var safeWindow      = function() {
+  var safeWindow = {};
+  for (k in window) {
+    if (typeof window[k] == 'function') {
+      safeWindow[k] = blankFunction;
+    } else {
+      safeWindow[k] = {};
+    }
+  }
+  return safeWindow;
+}();
 poilot.evalString   = function(string) {
   var document  = {
     location: {},
@@ -12,21 +23,14 @@ poilot.evalString   = function(string) {
     div.text(string);
     $('#chat').prepend(div);
   };
-  var window = { 
-    confirm: blankFunction,
-    back: blankFunction,
-    close: blankFunction,
-    prompt: blankFunction,
-    open: blankFunction,
-    history: {},
-    document: document,
-    dummy: null
-  };
-  window.alert = function(string) {
+  var window = safeWindow;
+  window.document = document;
+  window.alert    = function(string) {
     var div = $('<p class="window_alert"></p>');
     div.text(string);
     $('#chat').prepend(div);
   };
+  window.$ = jQuery;
   with (window) {
     with (document) {
       return eval(string);
