@@ -2,7 +2,7 @@ var socket;
 var json            = JSON.stringify;
 var poilot          = {};
 var blankFunction   = function() {};
-window.evalString   = function(string) {
+poilot.evalString   = function(string) {
   var document  = {
     location: {},
     dummy: null
@@ -40,6 +40,9 @@ poilot.title        = 'Poilot';
 poilot.blur         = false;
 poilot.unReadCount  = 0;
 poilot.currentTime  = null;
+poilot.toLocaleString = function () {
+  return '[' + this.title + ' ver. ' + this.version + ']';
+};
 
 var appendMessage = function(message) {
   var div = null;
@@ -61,7 +64,7 @@ var execMessage = function(message) {
   expression.text(message);
   div.append(expression);
   try {
-    var evaluated = window.evalString(message);
+    var evaluated = poilot.evalString(message);
     if (!evaluated) { evaluated = 'null'};
     result.text(evaluated.toLocaleString());
   } catch (e) {
