@@ -1,8 +1,12 @@
 var socket;
-$(function(){
-socket = new io.Socket( location.hostname, { port:location.port} );
 var json            = JSON.stringify;
 var poilot          = {};
+poilot.evalString = function(string) {
+  return eval(string);
+}
+
+$(function(){
+socket = new io.Socket( location.hostname, { port:location.port} );
 poilot.title        = 'Poilot';
 poilot.blur         = false;
 poilot.unReadCount  = 0;
@@ -28,7 +32,7 @@ var execMessage = function(message) {
   expression.text(message);
   div.append(expression);
   try {
-    var evaluated = eval(message);
+    var evaluated = poilot.evalString(message);
     if (!evaluated) { evaluated = 'null'};
     result.text(evaluated.toLocaleString());
   } catch (e) {
@@ -176,5 +180,17 @@ $(window).bind('focus', function() {
   poilot.unReadCount = 0;
   $('title').text(poilot.title);
 });
+
+document.write = function(string) {
+  var div = $('<p class="document_write"></p>');
+  div.text(string);
+  $('#chat').prepend(div);
+}
+
+window.alert = function(string) {
+  var div = $('<p class="window_alert"></p>');
+  div.text(string);
+  $('#chat').prepend(div);
+}
 
 });

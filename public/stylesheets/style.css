@@ -139,6 +139,17 @@ form p {
 	overflow: visible;
 	color: #dd3d67;
 }
+#chat .window_alert:before {
+	content: "[Alert] ";
+	color: #8d913d;
+}
+#chat .window_alert {
+	overflow: hidden;
+	border-radius: 0.6em;
+	background-color: #f4ffbb;
+	border: 4px solid #cccc99;
+	padding: 0.4em;
+}
 /* @end */
 
 /* @group publications */
