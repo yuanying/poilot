@@ -9,9 +9,14 @@ body {
 	padding-left: 1em;
 	padding-right: 1em;
 }
-pre.aa {
+#chat pre.aa {
 	font-family: Mona, 'IPA MONAPGOTHIC', 'MS PGothic', 'ＭＳ Ｐゴシック', 'MS Pｺﾞｼｯｸ', 'MS Pゴシック', sans-serif;
 	font-size: 10px;
+	background: transparent;
+	-webkit-box-shadow: none;
+	/*text-shadow: 1px 1px 1px #ccc;*/
+	text-shadow: none;
+	color: #333;
 }
 
 /* @group site */
