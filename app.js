@@ -8,7 +8,7 @@ var express = require('express')
   json = JSON.stringify;
 
 var app = module.exports = express.createServer();
-app.version = '0.0.4';
+app.version = '0.0.5';
 
 // Configuration
 
@@ -46,8 +46,9 @@ if (!module.parent) {
   console.log("Express server listening on port %d", app.address().port)
 }
 
-var socket = io.listen(app);
-var count = 0;
+var socket  = io.listen(app);
+var count   = 0;
+var buffers = [];
 socket.on('connection', function(client) {
   var createDefaultMessage = function() {
     var msg = {};
@@ -55,7 +56,7 @@ socket.on('connection', function(client) {
     msg.version = app.version;
     return msg;
   }
-  var sendMessage = function(message) {
+  client.sendMessage = function(message) {
     var msg = createDefaultMessage();
     if (message && message.message) {
       if (message && message.message && message.message.text && message.message.time) {
@@ -70,22 +71,28 @@ socket.on('connection', function(client) {
         msg.error = 'message.invalid';
       }
       if (msg.error) {
-        client.send(json(msg));
+        this.send(json(msg));
       } else {
-        client.broadcast(json(msg));
-        client.send(json(msg));
+        this.broadcast(json(msg));
+        this.send(json(msg));
+        if (buffers.length > 100) {
+          buffers.shift();
+        }
+        buffers.push(msg.message);
       }
     }
   }
   
   count++;
   client.broadcast(json(createDefaultMessage()));
-  client.send(json(createDefaultMessage()));
+  var initialMessage = createDefaultMessage();
+  initialMessage.buffers = buffers;
+  client.send(json(initialMessage));
 
   client.on('message', function(message) {
     // message
     message = JSON.parse(message);
-    sendMessage(message);
+    client.sendMessage(message);
   });
   client.on('disconnect', function() {
     // disconnect

@@ -1,11 +1,26 @@
 var socket;
 $(function(){
 socket = new io.Socket( location.hostname, { port:location.port} );
-var json = JSON.stringify;
-var poilot = {};
+var json            = JSON.stringify;
+var poilot          = {};
 poilot.title        = 'Poilot';
 poilot.blur         = false;
 poilot.unReadCount  = 0;
+poilot.currentTime  = null;
+
+var appendMessage = function(message) {
+  var div = null;
+  var data = message.text;
+  if (data.match(/　/m)) {
+    div = $('<pre class="chatlog aa"></pre>');
+    div.text(data);
+  } else {
+    div = $('<p class="chatlog"></p>');
+    div.text(data);
+    div.html(div.html().replace(/\n/mg, '<br/>').replace(/\s/mg, '&nbsp;'));
+  }
+  $('#chat').prepend(div);
+}
 
 socket.connect();
 socket.on('message', function(message) {
@@ -15,13 +30,26 @@ socket.on('message', function(message) {
   if (!poilot.version) {
     poilot.version = message.version;
   }
+  
   if (message.count) {
     $('.count span').text(message.count);
   }
+  
   // $('title').text(poilot.version + " : " + message.version)
   if (poilot.version != message.version) {
     location.reload(false);
   }
+  
+  if (message.buffers) {
+    var buf = null;
+    for (var i=0; i<message.buffers.length; i++) {
+      buf = message.buffers[i];
+      if (buf.time > poilot.currentTime) {
+        appendMessage(buf);
+      }
+    }
+  }
+  
   if (message.error) {
     div = $('<p class="error"></p>');
     if (message.error == 'message.too_long') {
@@ -31,20 +59,15 @@ socket.on('message', function(message) {
     }
     $('#chat').prepend(div);
   }
+  
   if (message.message && message.message.text) {
     if (poilot.blur) {
       poilot.unReadCount++;
     }
-    var data = message.message.text;
-    if (data.match(/　/m)) {
-      div = $('<pre class="chatlog aa"></pre>');
-      div.text(data);
-    } else {
-      div = $('<p class="chatlog"></p>');
-      div.text(data);
-      div.html(div.html().replace(/\n/mg, '<br/>').replace(/\s/mg, '&nbsp;'));
+    if (message.message.time) {
+      poilot.currentTime = message.message.time;
     }
-    $('#chat').prepend(div);
+    appendMessage(message.message);
     if (poilot.unReadCount > 0) {
       $('title').text('(' + poilot.unReadCount + ') ' + poilot.title);
     }
