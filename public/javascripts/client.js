@@ -1,23 +1,24 @@
 var socket;
-var json            = JSON.stringify;
 var poilot          = {};
-var blankFunction   = function() {};
+var poilotUtils     = {};
+poilotUtils.json                = JSON.stringify;
+poilotUtils.blankFunction       = function() {};
+poilotUtils.createLocaleString  = function(string) {
+  return function() {
+    return string;
+  };
+};
 var safeWindow      = function() {
   var safeWindow = {};
   for (k in window) {
     if (typeof window[k] == 'function') {
-      safeWindow[k] = blankFunction;
+      safeWindow[k] = poilotUtils.blankFunction;
     } else {
       safeWindow[k] = {};
     }
   }
   return safeWindow;
 }();
-var createLocaleString = function(string) {
-  return function() {
-    return string;
-  };
-};
 poilot.evalString   = function(string) {
   var document  = {
     location: {},
@@ -63,7 +64,7 @@ poilot.evalString   = function(string) {
     }
   }
 }
-poilot.evalString.toLocaleString = createLocaleString('Evaluate argument string.');
+poilot.evalString.toLocaleString = poilotUtils.createLocaleString('Evaluate argument string.');
 
 $(function(){
 socket = new io.Socket( location.hostname, { port:location.port} );
@@ -74,13 +75,13 @@ poilot.currentTime  = null;
 poilot.toLocaleString = function () {
   return '[' + this.title + ' ver. ' + this.version + ']';
 };
-poilot.toLocaleString.toLocaleString = createLocaleString('Return locale string.');
+poilot.toLocaleString.toLocaleString = poilotUtils.createLocaleString('Return locale string.');
 poilot.showImage = function(url) {
   var div = $('<div/>');
   div.html('<img src="' + url + '" style="max-width:100%;height:auto;" />');
   $('#chat').prepend(div);
 };
-poilot.showImage.toLocaleString = createLocaleString('Show image from url. (currently unsafe)');
+poilot.showImage.toLocaleString = poilotUtils.createLocaleString('Show image from url. (currently unsafe)');
 
 var appendMessage = function(message) {
   var div = null;
@@ -178,12 +179,12 @@ socket.on('message', function(message) {
 var send = function(event) {
   var text = $(this.text).val();
   if (text) {
-    socket.send(json({message: {text: text}}));
+    socket.send(poilotUtils.json({message: {text: text}}));
     $(this.text).val('');
   }
   var exec = $(this.exec).val();
   if (exec) {
-    socket.send(json({exec: exec}));
+    socket.send(poilotUtils.json({exec: exec}));
     $(this.exec).val('');
   }
   return false;
