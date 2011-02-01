@@ -26,7 +26,7 @@ var execMessage = function(message) {
   try {
     var evaluated = eval(message);
     if (!evaluated) { evaluated = 'null'};
-    div.text(evaluated);
+    div.text(evaluated.toLocaleString());
   } catch (e) {
     div.text(e.toString());
     div.addClass('error');
