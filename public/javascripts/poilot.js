@@ -70,7 +70,6 @@ Poilot.prototype = {
     $('#chat').prepend(div);
   },
   help: function () {
-    console.log(this);
     var helpMessage = '';
     for (k in this) {
       if (typeof this[k] == 'function') {
