@@ -110,6 +110,10 @@ form p {
 	text-shadow: 1px 1px 1px #000;
 	overflow: auto;
 }
+#chat img {
+	max-width: 100%;
+	height: auto;
+}
 #chat p.error:before {
 	content: '[Error] ';
 	color: #ea9290;

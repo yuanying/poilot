@@ -6,6 +6,9 @@ var poilotUtils = {
       return string;
     };
   },
+  escape: function (string) {
+    return string.replace(/</mg, '&lt;').replace(/>/mg, '&gt;').replace(/"/mg, '&quot;');
+  },
   safeWindow : (function() {
     var safeWindow = {};
     for (k in window) {
@@ -44,7 +47,7 @@ var poilot = {
   },
   showImage: function(url) {
     var div = $('<div/>');
-    div.html('<img src="' + url + '" style="max-width:100%;height:auto;" />');
+    div.html('<p><img src="' + poilotUtils.escape(url) + '" alt="" /></p>');
     $('#chat').prepend(div);
   },
   toLocaleString: function () {
@@ -81,7 +84,7 @@ var poilot = {
 };
 
 poilot.evalString.toLocaleString = poilotUtils.createLocaleString('Evaluate argument string.');
-poilot.showImage.toLocaleString = poilotUtils.createLocaleString('Show image from url. (currently unsafe)');
+poilot.showImage.toLocaleString = poilotUtils.createLocaleString('Show image from url.');
 poilot.toLocaleString.toLocaleString = poilotUtils.createLocaleString('Return locale string.');
 poilot.write.toLocaleString = poilotUtils.createLocaleString('Write string to chat log.');
 poilot.alert.toLocaleString = poilotUtils.createLocaleString('Alert string to chat log.');
