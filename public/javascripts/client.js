@@ -5,7 +5,10 @@ var poilot = new Poilot();
 var appendMessage = function(message) {
   var div = null;
   var data = message.text;
-  if (data.match(/　/m)) {
+  if (data.match(/^https?(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)(\.png|\.gif|\.jpg|\.jpeg)$/m)) {
+    div = $('<div/>');
+    div.html('<img src="' + poilotUtils.escape(data) + '" alt="" />');
+  } else if (data.match(/　/m)) {
     div = $('<pre class="chatlog aa"></pre>');
     div.text(data);
   } else {

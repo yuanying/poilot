@@ -50,7 +50,7 @@ Poilot.prototype = {
   },
   showImage: function(url) {
     var div = $('<div/>');
-    div.html('<p><img src="' + poilotUtils.escape(url) + '" alt="" /></p>');
+    div.html('<img src="' + poilotUtils.escape(url) + '" alt="" />');
     $('#chat').prepend(div);
   },
   toLocaleString: function () {
