@@ -23,7 +23,10 @@ var poilotUtils = {
   dummy: null
 };
 
-var poilot = {
+var Poilot = function() {
+  this.socket = new io.Socket( location.hostname, { port:location.port} );
+};
+Poilot.prototype = {
   title        : 'Poilot',
   blur         : false,
   unReadCount  : 0,
@@ -67,14 +70,15 @@ var poilot = {
     $('#chat').prepend(div);
   },
   help: function () {
+    console.log(this);
     var helpMessage = '';
-    for (k in poilot) {
-      if (typeof poilot[k] == 'function') {
+    for (k in this) {
+      if (typeof this[k] == 'function') {
         if (k == 'help') {
           helpMessage += 'help() : Show this message.'
         } else {
           helpMessage += (k + '() : ');
-          helpMessage += poilot[k].toLocaleString();
+          helpMessage += this[k].toLocaleString();
           helpMessage += '\n';
         }
       }
@@ -82,13 +86,12 @@ var poilot = {
     return helpMessage;
   }
 };
-
-poilot.evalString.toLocaleString = poilotUtils.createLocaleString('Evaluate argument string.');
-poilot.showImage.toLocaleString = poilotUtils.createLocaleString('Show image from url.');
-poilot.toLocaleString.toLocaleString = poilotUtils.createLocaleString('Return locale string.');
-poilot.write.toLocaleString = poilotUtils.createLocaleString('Write string to chat log.');
-poilot.alert.toLocaleString = poilotUtils.createLocaleString('Alert string to chat log.');
-poilot.reload.toLocaleString = poilotUtils.createLocaleString('Reload all users page.');
-poilot.help.toLocaleString = function() {
-  return this();
+Poilot.prototype.evalString.toLocaleString = poilotUtils.createLocaleString('Evaluate argument string.');
+Poilot.prototype.showImage.toLocaleString = poilotUtils.createLocaleString('Show image from url.');
+Poilot.prototype.toLocaleString.toLocaleString = poilotUtils.createLocaleString('Return locale string.');
+Poilot.prototype.write.toLocaleString = poilotUtils.createLocaleString('Write string to chat log.');
+Poilot.prototype.alert.toLocaleString = poilotUtils.createLocaleString('Alert string to chat log.');
+Poilot.prototype.reload.toLocaleString = poilotUtils.createLocaleString('Reload all users page.');
+Poilot.prototype.help.toLocaleString = function() {
+  return Poilot.prototype.help();
 };

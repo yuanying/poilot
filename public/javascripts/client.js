@@ -1,7 +1,6 @@
-var socket;
 
 $(function(){
-socket = new io.Socket( location.hostname, { port:location.port} );
+var poilot = new Poilot();
 
 var appendMessage = function(message) {
   var div = null;
@@ -37,8 +36,8 @@ var setVersionString = function(poilot) {
   $('.version').text('ver ' + poilot.version);
 }
 
-socket.connect();
-socket.on('message', function(message) {
+poilot.socket.connect();
+poilot.socket.on('message', function(message) {
   message = JSON.parse(message);
   var div = null;
   
@@ -99,12 +98,12 @@ socket.on('message', function(message) {
 var send = function(event) {
   var text = $(this.text).val();
   if (text) {
-    socket.send(poilotUtils.json({message: {text: text}}));
+    poilot.socket.send(poilotUtils.json({message: {text: text}}));
     $(this.text).val('');
   }
   var exec = $(this.exec).val();
   if (exec) {
-    socket.send(poilotUtils.json({exec: exec}));
+    poilot.socket.send(poilotUtils.json({exec: exec}));
     $(this.exec).val('');
   }
   return false;
@@ -142,10 +141,10 @@ $('a[href="#execForm"]').bind('click', function() {
 
 var dotCount = 0;
 setInterval(function() {
-  if (socket.connected) {
+  if (poilot.socket.connected) {
     dotCount = 0;
     $('.status span').text('connected');
-  } else if (!socket.connected && socket.connecting) {
+  } else if (!poilot.socket.connected && poilot.socket.connecting) {
     dotCount++;
     var dot = '';
     for (var i = 0; i<dotCount; i++) {
@@ -153,13 +152,13 @@ setInterval(function() {
     }
     $('.status span').text('connecting' + dot);
     if (dotCount >= 4) {
-      socket.connect();
+      poilot.socket.connect();
       dotCount = 0;
     }
-  } else if (!socket.connected && !socket.connecting) {
+  } else if (!poilot.socket.connected && !poilot.socket.connecting) {
     $('.status span').text('disconnected');
     $('.count span').text('0');
-    socket.connect();
+    poilot.socket.connect();
   }
 }, 1000);
 
