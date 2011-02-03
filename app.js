@@ -50,8 +50,8 @@ if (!module.parent) {
 }
 
 var socket  = io.listen(app, {
-  flashPolicyServer: false,
-  transports: ['htmlfile', 'xhr-multipart', 'xhr-polling', 'jsonp-polling']
+  flashPolicyServer: false// ,
+  //   transports: ['htmlfile', 'xhr-multipart', 'xhr-polling', 'jsonp-polling']
 });
 var count   = 0;
 var buffers = [];
