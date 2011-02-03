@@ -1,0 +1,19 @@
+{
+  "name": "poilot",
+  "description": "Anonymous Chat Server for Node.JS",
+  "version": "0.0.15",
+  "repository": "https://yuanying@github.com/yuanying/poilot.git",
+  "author": "Yuanying <yuan-duostack@fraction.jp> (http://www.fraction.jp/)",
+  "main": "server",
+  "directories": {
+    "lib": ""
+  },
+  "engines": {
+    "node": "0.2.5"
+  },
+  "dependencies": {
+    // your dependencies here, e.g. Express at the latest version:
+    "express": "*",
+    "socket.io": "*"
+  }
+}

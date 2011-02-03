@@ -49,7 +49,10 @@ if (!module.parent) {
   console.log("Express server listening on port %d", app.address().port)
 }
 
-var socket  = io.listen(app);
+var socket  = io.listen(app, {
+  flashPolicyServer: false,
+  transports: ['htmlfile', 'xhr-multipart', 'xhr-polling', 'jsonp-polling']
+});
 var count   = 0;
 var buffers = [];
 socket.on('connection', function(client) {
