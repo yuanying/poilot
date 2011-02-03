@@ -118,6 +118,12 @@ form p {
 	text-shadow: 1px 1px 1px #000;
 	overflow: auto;
 }
+#chat .chatlog a {
+	color: #bed6fe;
+}
+#chat .chatlog a:hover {
+	color: #fff;
+}
 #chat img {
 	max-width: 100%;
 	height: auto;

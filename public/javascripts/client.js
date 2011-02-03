@@ -14,7 +14,16 @@ var appendMessage = function(message) {
   } else {
     div = $('<p class="chatlog"></p>');
     div.text(data);
-    div.html(div.html().replace(/\n/mg, '<br/>').replace(/\s/mg, '&nbsp;'));
+    data = div.html()
+      .replace(/\n/mg, '<br/>')
+      .replace(/\s/mg, '&nbsp;')
+      .replace(/https?:\/\/([-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/mg, function(url, shortUrl) {
+        if (shortUrl.length > 30) {
+          shortUrl = shortUrl.substring(0, 30) + '...';
+        }
+        return '<a href="' + url + '">' + shortUrl + '</a>';
+      });
+    div.html(data);
   }
   $('#chat').prepend(div);
 }
