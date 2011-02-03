@@ -22,9 +22,16 @@ body {
 /* @group site */
 #site h1 {
 	text-align: right;
-	font-size: 12px;
+	font-size: 14px;
 	display: block;
 	margin: 0.4em;
+}
+#site h1 a {
+	color: #333;
+	text-shadow: 0 2px 1px #fff, 0 2px 1px #000;
+	text-decoration: none;
+	font-weight: bold;
+	font-family: Georgia, "Times New Roman", Times, serif;
 }
 #site .version {
 	font-size: 10px;
