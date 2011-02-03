@@ -10,6 +10,8 @@ var express = require('express')
 var app = module.exports = express.createServer();
 app.version = '0.0.15';
 
+var port = 3000;
+
 // Configuration
 
 app.configure(function(){
@@ -27,6 +29,7 @@ app.configure('development', function(){
 
 app.configure('production', function(){
   app.use(express.errorHandler()); 
+  port = 80;
 });
 
 // Routes
@@ -42,7 +45,7 @@ app.configure('production', function(){
 // Only listen on $ node app.js
 
 if (!module.parent) {
-  app.listen(3000);
+  app.listen(port);
   console.log("Express server listening on port %d", app.address().port)
 }
 
