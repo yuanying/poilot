@@ -20,6 +20,7 @@ var poilotUtils = {
     }
     return safeWindow;
   })(),
+  komakee: '　　　　　　　　　　　　 ／）\n　　　　　　　　　　　／／／）\n　　　　　　　　　 ／,.=ﾞ\'\'"／\n　　　／　　　　 i f　,.r=\'"-‐\'つ＿＿＿_　　　こまけぇこたぁいいんだよ！！\n　　/　　　　　 /　　　_,.-‐\'~／⌒　　⌒＼\n　　　　／　 　,i　　　,二ﾆ⊃（ ●）.　（●）＼\n　　　/　 　　ﾉ　　　 ilﾞフ::::::⌒（__人__）⌒::::: ＼\n　　　　　　,ｲ｢ﾄ､　　,!,!|　　　　　|r┬-|　　　　　|\n　　　　　/　iﾄヾヽ_/ｨ"＼ 　　 　 `ー\'´ 　 　 ／',
   kusakari: '　　　　_, ._ \n　　（　・ω・） \n　　○=｛=｝〇, \n　 　|:::::::::＼, \', ´ \n､､､､し ､､､((（.＠）ｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ',
   nyaAA: '　　　　　　　　 ,-､　　　　　　　　　　　　,.-､ \n　　　　　　　 ./:::::＼　　　　　　　　　 ／::::::ヽ \n　　　　　　　/::::::::::::;ゝ--──-- ､._/::::::::::::::| \n　　　　　　 /,.-‐\'\'"´ 　　　　　　　　 ＼:::::::::::| \n　　　　　／　 　　　　　　　　　　　　　　ヽ､::::| \n　　　　/　　　　●　　　 　 　 　 　 　 　 　 ヽ| \n　　 　 l　　　, , ,　　 　 　 　 　 　 ●　　　 　 l \n　　　 .|　　　 　　　　(_人__丿　　　　　､､､　　|　　　　にゃーにゃーうっせんだよ死ねにゃあ \n　 　 　l　　　　　　　　　　　　　　　　　　　 　 l \n　　　　` ､　　　　　　　　 　 　 　 　 　 　 　 / \n　　　　　　`ｰ ､__　　　 　 　 　　　　　　　／ \n　　　　　　　　　/`\'\'\'ｰ‐‐──‐‐‐┬\'\'\'""´',
   gugureKasu: '　　 　   　, イ)ィ　-─ ──- ､ﾐヽ\n　　　 　 ノ ／,．-‐\'"´ ｀ヾj ii /　 Λ\n　　　 ,ｲ／／ ^ヽj(二ﾌ\'"´￣｀ヾ､ﾉｲ{\n　　 ノ/,／ミ三ﾆｦ´　　　　　　　 ﾞ､ﾉi!\n　　{V /ミ三二,ｲ　, 　／,　　 ,＼　 Yｿ\n　　ﾚ\'/三二彡ｲ　 .:ィこﾗ 　 ;:こﾗ 　j{\n　　V;;;::. ;ｦヾ!V　　　 ｰ \'′　i ｰ \'　ｿ\n　　 Vﾆﾐ( 入　､　　 　 　r　　j　　,′ 　\n　　　ヾﾐ､｀ゝ　　｀ ｰ--‐\'ゞﾆ<‐-イ\n　　　　　ヽ　ヽ　　　　 -\'\'ﾆﾆ‐　 /\n　 　 　 　 |　　｀､　　　　 ⌒　 ,/\n　　　 　 　|　　　 ＞┻━┻\'r‐\'´\n　　　　　　ヽ＿ 　 　 　 　 |\n　　　　　　　　　ヽ ＿ ＿ 」 　　　\n\n　　ググレカス [ Gugurecus ]\n　　（ 2006 ～ 没年不明 ）',
@@ -27,20 +28,28 @@ var poilotUtils = {
     { 
       match: /にゃー$/m,
       run: function(poilot, options) {
-        poilot.showMessage(poilotUtils.nyaAA, options.depth);
+        poilot.showMessage(poilotUtils.nyaAA, 10000);
       }
     },
     {
       match: /(.+)(って(何|なん|なに)だ?(\?|？))$/m,
       run: function(poilot, options) {
-        poilot.showMessage(poilotUtils.gugureKasu, options.depth);
-        poilot.showMessage('http://www.google.com/search?q=' + encodeURIComponent(options.matched[1]), options.depth)
+        poilot.showMessage(poilotUtils.gugureKasu, 10000);
+        poilot.showMessage('http://www.google.com/search?q=' + encodeURIComponent(options.matched[1]), 10000);
       }
     },
     {
       match: /([wｗ]{3,}|っ{2,}[wｗ]+)$/m,
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.kusakari, 10000);
+      }
+    },
+    {
+      match: function(data) { 
+        return data.length > 30 && !data.match(/　/m) && !data.match(/https?:\/\/([-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/m);
+      },
+      run: function(poilot, options) {
+        poilot.showMessage(poilotUtils.komakee, 10000);
       }
     },
     null
@@ -108,12 +117,14 @@ Poilot.prototype = {
     for (var i=0; i<poilotUtils.postProcessors.length; i++) {
       p = poilotUtils.postProcessors[i];
       if (!p) {continue;};
-      if (p.match && (matched = rawData.match(p.match))) {
-        p.run(this, {
-          data: rawData,
-          matched: matched,
-          depth: depth
-        });
+      if (p.match) {
+        if (matched = p.match instanceof RegExp ? rawData.match(p.match) : p.match(rawData)) {
+          p.run(this, {
+            data: rawData,
+            matched: matched,
+            depth: depth
+          });
+        } 
       }
     }
   },
