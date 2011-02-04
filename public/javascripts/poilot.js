@@ -36,7 +36,7 @@ var poilotUtils = {
       }
     },
     {
-      match: /(.+)(って(何|なん|なに)だ?(\?|？))[wｗ]*$/m,
+      match: /(.+)(って(何|なん|なに)(ですか|だ)?(\?|？))[wｗ]*$/m,
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.gugureKasu, 10000);
         poilot.showMessage('http://www.google.com/search?q=' + encodeURIComponent(options.matched[1]), 10000);
