@@ -4,6 +4,9 @@ var poilot = new Poilot();
 
 var appendMessage = function(message) {
   poilot.showMessage(message.text);
+  
+  poilot.currentHistory.text = -1;
+  poilot.histories.text.unshift(message.text);
 }
 var execMessage = function(message) {
   var div = $('<pre class="eval"></pre>');
@@ -21,6 +24,9 @@ var execMessage = function(message) {
   }
   div.append(result);
   $('#chat').prepend(div);
+  
+  poilot.currentHistory.exec = -1;
+  poilot.histories.exec.unshift(message);
 }
 var setVersionString = function(poilot) {
   $('.version').text('ver ' + poilot.version);
@@ -128,6 +134,34 @@ $('a[href="#execForm"]').bind('click', function() {
   $('#execForm').removeClass('disabled');
   return false;
 });
+
+var setHistory = function(self, history, pointer) {
+  if (pointer == -1) {
+    $(self).val('');
+  } else {
+    $(self).val(history[pointer]);
+  }
+};
+
+var showHistory = function(e) {
+  switch(e.which) {
+    case 38:
+      if (poilot.currentHistory[this.id] < poilot.histories[this.id].length -1) {
+        poilot.currentHistory[this.id]++;
+      }
+      setHistory(this, poilot.histories[this.id], poilot.currentHistory[this.id]);
+    break;
+    case 40:
+      if (poilot.currentHistory[this.id] > -1) {
+        poilot.currentHistory[this.id]--;
+      }
+      setHistory(this, poilot.histories[this.id], poilot.currentHistory[this.id]);
+    break;
+  };
+};
+
+$('#text').keydown(showHistory);
+$('#exec').keydown(showHistory);
 
 var dotCount = 0;
 setInterval(function() {

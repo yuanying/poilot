@@ -143,6 +143,14 @@ Poilot.prototype = {
       }
     }
     return helpMessage;
+  },
+  currentHistory: {
+    text: -1,
+    exec: -1
+  },
+  histories: {
+    text: [],
+    exec: []
   }
 };
 Poilot.prototype.evalString.toLocaleString = poilotUtils.createLocaleString('Evaluate argument string.');
