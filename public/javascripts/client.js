@@ -13,6 +13,9 @@ var appendMessage = function(message) {
     div.text(data);
   } else {
     div = $('<p class="chatlog"></p>');
+    if (data == 'にゃー') {
+      setTimeout(function() {appendMessage({ text: poilotUtils.nyaAA });}, 1000);
+    }
     div.text(data);
     data = div.html()
       .replace(/\n/mg, '<br/>')
