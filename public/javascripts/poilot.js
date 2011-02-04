@@ -32,6 +32,7 @@ var poilotUtils = {
       match: /にゃー$/m,
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.nyaAA, 10000);
+        return false;
       }
     },
     {
@@ -39,38 +40,45 @@ var poilotUtils = {
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.gugureKasu, 10000);
         poilot.showMessage('http://www.google.com/search?q=' + encodeURIComponent(options.matched[1]), 10000);
+        return false;
       }
     },
     {
       match: /([wｗ]{3,}|っ{2,}[wｗ]+)$/m,
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.kusakari, 10000);
+        return false;
       }
     },
     {
       match: function(data) { 
         return data.length > 30 && !data.match(/　/m) && !data.match(/https?:\/\/([-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/m);
+        return false;
       },
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.komakee, 10000);
+        return false;
       }
     },
     {
       match: /しようと思う/m,
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.koumei, 10000);
+        return false;
       }
     },
     {
       match: /(逆に考えると|なきにしもあらず|ゆとり|ボッタクリすぎ|マスゴミ)/m,
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.bakadana, 10000);
+        return false;
       }
     },
     {
       match: /(お願い|頼む|よろしく|してよ?)。?[wｗ]*$/m,
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.okotowari, 10000);
+        return false;
       }
     },
     null
@@ -140,11 +148,13 @@ Poilot.prototype = {
       if (!p) {continue;};
       if (p.match) {
         if (matched = p.match instanceof RegExp ? rawData.match(p.match) : p.match(rawData)) {
-          p.run(this, {
+          if (!p.run(this, {
             data: rawData,
             matched: matched,
             depth: depth
-          });
+          })) {
+            break;
+          };
         } 
       }
     }
