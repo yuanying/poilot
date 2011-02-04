@@ -38,9 +38,9 @@ var poilotUtils = {
       }
     },
     {
-      match: /(w{3,}|ｗ{3,})$/m,
+      match: /([wｗ]{3,}|っ{2,}[wｗ]+)$/m,
       run: function(poilot, options) {
-        poilot.showMessage(poilotUtils.kusakari, options.depth);
+        poilot.showMessage(poilotUtils.kusakari, 10000);
       }
     },
     null
@@ -55,6 +55,7 @@ Poilot.prototype = {
   title        : 'Poilot',
   blur         : false,
   unReadCount  : 0,
+  maxDepth     : 5,
   currentTime  : null,
   evalString: function(string) {
     var document = {};
@@ -76,7 +77,6 @@ Poilot.prototype = {
   showMessage: function(string, depth) {
     if (!depth) { depth = 0; };
     depth++;
-    if (depth > 5) { return; };
     var div = null;
     var data = string;
     var rawData = data;
@@ -101,6 +101,8 @@ Poilot.prototype = {
       div.html(data);
     }
     $('#chat').prepend(div);
+    
+    if (depth > this.maxDepth) { return; };
     var p = null;
     var matched = null;
     for (var i=0; i<poilotUtils.postProcessors.length; i++) {
