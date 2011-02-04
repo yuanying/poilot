@@ -20,6 +20,7 @@ var poilotUtils = {
     }
     return safeWindow;
   })(),
+  kusakari: '　　　　_, ._ \n　　（　・ω・） \n　　○=｛=｝〇, \n　 　|:::::::::＼, \', ´ \n､､､､し ､､､((（.＠）ｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ',
   nyaAA: '　　　　　　　　 ,-､　　　　　　　　　　　　,.-､ \n　　　　　　　 ./:::::＼　　　　　　　　　 ／::::::ヽ \n　　　　　　　/::::::::::::;ゝ--──-- ､._/::::::::::::::| \n　　　　　　 /,.-‐\'\'"´ 　　　　　　　　 ＼:::::::::::| \n　　　　　／　 　　　　　　　　　　　　　　ヽ､::::| \n　　　　/　　　　●　　　 　 　 　 　 　 　 　 ヽ| \n　　 　 l　　　, , ,　　 　 　 　 　 　 ●　　　 　 l \n　　　 .|　　　 　　　　(_人__丿　　　　　､､､　　|　　　　にゃーにゃーうっせんだよ死ねにゃあ \n　 　 　l　　　　　　　　　　　　　　　　　　　 　 l \n　　　　` ､　　　　　　　　 　 　 　 　 　 　 　 / \n　　　　　　`ｰ ､__　　　 　 　 　　　　　　　／ \n　　　　　　　　　/`\'\'\'ｰ‐‐──‐‐‐┬\'\'\'""´',
   gugureKasu: '　　 　   　, イ)ィ　-─ ──- ､ﾐヽ\n　　　 　 ノ ／,．-‐\'"´ ｀ヾj ii /　 Λ\n　　　 ,ｲ／／ ^ヽj(二ﾌ\'"´￣｀ヾ､ﾉｲ{\n　　 ノ/,／ミ三ﾆｦ´　　　　　　　 ﾞ､ﾉi!\n　　{V /ミ三二,ｲ　, 　／,　　 ,＼　 Yｿ\n　　ﾚ\'/三二彡ｲ　 .:ィこﾗ 　 ;:こﾗ 　j{\n　　V;;;::. ;ｦヾ!V　　　 ｰ \'′　i ｰ \'　ｿ\n　　 Vﾆﾐ( 入　､　　 　 　r　　j　　,′ 　\n　　　ヾﾐ､｀ゝ　　｀ ｰ--‐\'ゞﾆ<‐-イ\n　　　　　ヽ　ヽ　　　　 -\'\'ﾆﾆ‐　 /\n　 　 　 　 |　　｀､　　　　 ⌒　 ,/\n　　　 　 　|　　　 ＞┻━┻\'r‐\'´\n　　　　　　ヽ＿ 　 　 　 　 |\n　　　　　　　　　ヽ ＿ ＿ 」 　　　\n\n　　ググレカス [ Gugurecus ]\n　　（ 2006 ～ 没年不明 ）',
   postProcessors:[
@@ -34,6 +35,12 @@ var poilotUtils = {
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.gugureKasu, options.depth);
         poilot.showMessage('http://www.google.com/search?q=' + encodeURIComponent(options.matched[1]), options.depth)
+      }
+    },
+    {
+      match: /(w{3,}|ｗ{3,})$/m,
+      run: function(poilot, options) {
+        poilot.showMessage(poilotUtils.kusakari, options.depth);
       }
     },
     null
