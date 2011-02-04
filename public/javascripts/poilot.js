@@ -55,7 +55,7 @@ var poilotUtils = {
       }
     },
     {
-      match: /(だと思う|じゃないかな|だろう)/m,
+      match: /しようと思う/m,
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.koumei, 10000);
       }
