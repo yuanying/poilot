@@ -75,7 +75,7 @@ var poilotUtils = {
       }
     },
     {
-      match: /(お願い|頼む|よろしく|してよ?)。?[wｗ]*$/m,
+      match: /(お願い|頼む|よろしく|してよ?|してくださいよ?)。?[wｗ]*$/m,
       run: function(poilot, options) {
         poilot.showMessage(poilotUtils.okotowari, 10000);
         return false;
