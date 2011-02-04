@@ -13,9 +13,6 @@ var appendMessage = function(message) {
     div.text(data);
   } else {
     div = $('<p class="chatlog"></p>');
-    if (data == 'にゃー') {
-      setTimeout(function() {appendMessage({ text: poilotUtils.nyaAA });}, 1000);
-    }
     div.text(data);
     data = div.html()
       .replace(/\n/mg, '<br/>')
@@ -29,6 +26,9 @@ var appendMessage = function(message) {
     div.html(data);
   }
   $('#chat').prepend(div);
+  if (div.text().match(/にゃー$/m)) {
+    appendMessage({ text: poilotUtils.nyaAA });
+  }
 }
 var execMessage = function(message) {
   var div = $('<pre class="eval"></pre>');
