@@ -3,32 +3,7 @@ $(function(){
 var poilot = new Poilot();
 
 var appendMessage = function(message) {
-  var div = null;
-  var data = message.text;
-  if (data.match(/^https?(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)(\.png|\.gif|\.jpg|\.jpeg)$/m)) {
-    div = $('<div/>');
-    div.html('<img src="' + poilotUtils.escape(data) + '" alt="" />');
-  } else if (data.match(/　/m)) {
-    div = $('<pre class="chatlog aa"></pre>');
-    div.text(data);
-  } else {
-    div = $('<p class="chatlog"></p>');
-    div.text(data);
-    data = div.html()
-      .replace(/\n/mg, '<br/>')
-      .replace(/\s/mg, '&nbsp;')
-      .replace(/https?:\/\/([-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/mg, function(url, shortUrl) {
-        if (shortUrl.length > 30) {
-          shortUrl = shortUrl.substring(0, 30) + '...';
-        }
-        return '<a href="' + url + '">' + shortUrl + '</a>';
-      });
-    div.html(data);
-  }
-  $('#chat').prepend(div);
-  if (div.text().match(/にゃー$/m)) {
-    appendMessage({ text: poilotUtils.nyaAA });
-  }
+  poilot.showMessage(message.text);
 }
 var execMessage = function(message) {
   var div = $('<pre class="eval"></pre>');

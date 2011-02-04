@@ -21,6 +21,23 @@ var poilotUtils = {
     return safeWindow;
   })(),
   nyaAA: '　　　　　　　　 ,-､　　　　　　　　　　　　,.-､ \n　　　　　　　 ./:::::＼　　　　　　　　　 ／::::::ヽ \n　　　　　　　/::::::::::::;ゝ--──-- ､._/::::::::::::::| \n　　　　　　 /,.-‐\'\'"´ 　　　　　　　　 ＼:::::::::::| \n　　　　　／　 　　　　　　　　　　　　　　ヽ､::::| \n　　　　/　　　　●　　　 　 　 　 　 　 　 　 ヽ| \n　　 　 l　　　, , ,　　 　 　 　 　 　 ●　　　 　 l \n　　　 .|　　　 　　　　(_人__丿　　　　　､､､　　|　　　　にゃーにゃーうっせんだよ死ねにゃあ \n　 　 　l　　　　　　　　　　　　　　　　　　　 　 l \n　　　　` ､　　　　　　　　 　 　 　 　 　 　 　 / \n　　　　　　`ｰ ､__　　　 　 　 　　　　　　　／ \n　　　　　　　　　/`\'\'\'ｰ‐‐──‐‐‐┬\'\'\'""´',
+  gugureKasu: '　　 　   　, イ)ィ　-─ ──- ､ﾐヽ\n　　　 　 ノ ／,．-‐\'"´ ｀ヾj ii /　 Λ\n　　　 ,ｲ／／ ^ヽj(二ﾌ\'"´￣｀ヾ､ﾉｲ{\n　　 ノ/,／ミ三ﾆｦ´　　　　　　　 ﾞ､ﾉi!\n　　{V /ミ三二,ｲ　, 　／,　　 ,＼　 Yｿ\n　　ﾚ\'/三二彡ｲ　 .:ィこﾗ 　 ;:こﾗ 　j{\n　　V;;;::. ;ｦヾ!V　　　 ｰ \'′　i ｰ \'　ｿ\n　　 Vﾆﾐ( 入　､　　 　 　r　　j　　,′ 　\n　　　ヾﾐ､｀ゝ　　｀ ｰ--‐\'ゞﾆ<‐-イ\n　　　　　ヽ　ヽ　　　　 -\'\'ﾆﾆ‐　 /\n　 　 　 　 |　　｀､　　　　 ⌒　 ,/\n　　　 　 　|　　　 ＞┻━┻\'r‐\'´\n　　　　　　ヽ＿ 　 　 　 　 |\n　　　　　　　　　ヽ ＿ ＿ 」 　　　\n\n　　ググレカス [ Gugurecus ]\n　　（ 2006 ～ 没年不明 ）',
+  postProcessors:[
+    { 
+      match: /にゃー$/m,
+      run: function(poilot, options) {
+        poilot.showMessage(poilotUtils.nyaAA, options.depth);
+      }
+    },
+    {
+      match: /(.+)(って(何|なん|なに)だ?(\?|？))$/m,
+      run: function(poilot, options) {
+        poilot.showMessage(poilotUtils.gugureKasu, options.depth);
+        poilot.showMessage('http://www.google.com/search?q=' + encodeURIComponent(options.matched[1]), options.depth)
+      }
+    },
+    null
+  ],
   dummy: null
 };
 
@@ -46,6 +63,48 @@ Poilot.prototype = {
         with (this) {
           return eval(string);
         }
+      }
+    }
+  },
+  showMessage: function(string, depth) {
+    if (!depth) { depth = 0; };
+    depth++;
+    if (depth > 5) { return; };
+    var div = null;
+    var data = string;
+    var rawData = data;
+    if (data.match(/^https?(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)(\.png|\.gif|\.jpg|\.jpeg)$/m)) {
+      div = $('<div/>');
+      div.html('<img src="' + poilotUtils.escape(data) + '" alt="" />');
+    } else if (data.match(/　/m)) {
+      div = $('<pre class="chatlog aa"></pre>');
+      div.text(data);
+    } else {
+      div = $('<p class="chatlog"></p>');
+      div.text(data);
+      data = div.html()
+        .replace(/\n/mg, '<br/>')
+        .replace(/\s/mg, '&nbsp;')
+        .replace(/https?:\/\/([-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/mg, function(url, shortUrl) {
+          if (shortUrl.length > 30) {
+            shortUrl = shortUrl.substring(0, 30) + '...';
+          }
+          return '<a href="' + url + '">' + shortUrl + '</a>';
+        });
+      div.html(data);
+    }
+    $('#chat').prepend(div);
+    var p = null;
+    var matched = null;
+    for (var i=0; i<poilotUtils.postProcessors.length; i++) {
+      p = poilotUtils.postProcessors[i];
+      if (!p) {continue;};
+      if (p.match && (matched = rawData.match(p.match))) {
+        p.run(this, {
+          data: rawData,
+          matched: matched,
+          depth: depth
+        });
       }
     }
   },
@@ -87,6 +146,7 @@ Poilot.prototype = {
   }
 };
 Poilot.prototype.evalString.toLocaleString = poilotUtils.createLocaleString('Evaluate argument string.');
+Poilot.prototype.showMessage.toLocaleString = poilotUtils.createLocaleString('Show message from string.');
 Poilot.prototype.showImage.toLocaleString = poilotUtils.createLocaleString('Show image from url.');
 Poilot.prototype.toLocaleString.toLocaleString = poilotUtils.createLocaleString('Return locale string.');
 Poilot.prototype.write.toLocaleString = poilotUtils.createLocaleString('Write string to chat log.');
