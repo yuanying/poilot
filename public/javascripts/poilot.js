@@ -134,7 +134,7 @@ Poilot.prototype = {
           if (shortUrl.length > 30) {
             shortUrl = shortUrl.substring(0, 30) + '...';
           }
-          return '<a href="' + url + '">' + shortUrl + '</a>';
+          return '<a href="' + url + '" target="_blank">' + shortUrl + '</a>';
         });
       div.html(data);
     }
