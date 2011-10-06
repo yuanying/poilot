@@ -8,7 +8,7 @@ var express = require('express')
   json = JSON.stringify;
 
 var app = module.exports = express.createServer();
-app.version = '0.0.15';
+app.version = '0.1.0';
 
 var port = 3000;
 
@@ -17,10 +17,10 @@ var port = 3000;
 app.configure(function(){
   app.set('views', __dirname + '/views');
   // app.set('view engine', 'jade');
-  app.use(express.bodyDecoder());
+  app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.staticProvider(__dirname + '/public'));
+  app.use(express.static(__dirname + '/public'));
 });
 
 app.configure('development', function(){
@@ -49,13 +49,13 @@ if (!module.parent) {
   console.log("Express server listening on port %d", app.address().port)
 }
 
-var socket  = io.listen(app, {
+var socket_io  = io.listen(app, {
   flashPolicyServer: false// ,
   //   transports: ['htmlfile', 'xhr-multipart', 'xhr-polling', 'jsonp-polling']
 });
 var count   = 0;
 var buffers = [];
-socket.on('connection', function(client) {
+socket_io.sockets.on('connection', function(client) {
   client.invalidTime  = 0;
   client.invalid      = false;
   var createDefaultMessage = function() {
@@ -68,7 +68,7 @@ socket.on('connection', function(client) {
   client.sendErrorMessage = function(code) {
     var msg = createDefaultMessage();
     msg.error = code;
-    this.send(json(msg));
+    this.emit('message', json(msg));
   };
   client.execMessage = function(message) {
     var msg = createDefaultMessage();
@@ -77,8 +77,8 @@ socket.on('connection', function(client) {
     } else {
       msg.error = 'message.too_long';
     }
-    this.broadcast(json(msg));
-    this.send(json(msg));
+    this.broadcast.emit('message', json(msg));
+    this.emit('message', json(msg));
   }
   client.sendMessage = function(message) {
     var msg = createDefaultMessage();
@@ -95,10 +95,10 @@ socket.on('connection', function(client) {
         msg.error = 'message.invalid';
       }
       if (msg.error) {
-        this.send(json(msg));
+        this.emit('message', json(msg));
       } else {
-        this.broadcast(json(msg));
-        this.send(json(msg));
+        this.broadcast.emit('message', json(msg));
+        this.emit('message', json(msg));
         if (buffers.length > 100) {
           buffers.shift();
         }
@@ -108,10 +108,10 @@ socket.on('connection', function(client) {
   }
   
   count++;
-  client.broadcast(json(createDefaultMessage()));
+  client.broadcast.emit('message', json(createDefaultMessage()));
   var initialMessage = createDefaultMessage();
   initialMessage.buffers = buffers;
-  client.send(json(initialMessage));
+  client.emit('message', json(initialMessage));
 
   client.on('message', function(message) {
     var currentTime = new Date().getTime();
@@ -141,6 +141,6 @@ socket.on('connection', function(client) {
   client.on('disconnect', function() {
     // disconnect
     count--;
-    client.broadcast(json(createDefaultMessage()));
+    client.broadcast.emit('message', json(createDefaultMessage()));
   });
 });

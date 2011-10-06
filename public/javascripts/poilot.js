@@ -87,7 +87,7 @@ var poilotUtils = {
 };
 
 var Poilot = function() {
-  this.socket = new io.Socket( location.hostname, { port:location.port} );
+  this.socket = io.connect( location.hostname, { port:location.port} );
 };
 Poilot.prototype = {
   title        : 'Poilot',
