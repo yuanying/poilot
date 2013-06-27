@@ -9,10 +9,10 @@
     "lib": ""
   },
   "engines": {
-    "node": "0.4.1"
+    "node": "0.8.8"
   },
   "dependencies": {
-    "express": "*",
-    "socket.io": "*"
+    "express": "3.x",
+    "socket.io": "0.9.x"
   }
 }

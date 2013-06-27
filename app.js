@@ -3,19 +3,19 @@
  * Module dependencies.
  */
 
-var express = require('express'),
-  app = express(),
-  http = require('http'),
-  server = http.createServer(app),
-  io = require('socket.io'),
-  json = JSON.stringify;
+var express = require('express');
+var app = express();
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io');
+var json = JSON.stringify;
 
 //var app = module.exports = express();//express.createServer();
 // module.exports = app;
 module.exports = server;
 app.version = '0.1.0';
 
-var port = process.env.VCAP_APP_PORT || 3000;
+var port = process.env.PORT || 3000;
 
 // Configuration
 
