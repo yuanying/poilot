@@ -45,7 +45,7 @@ app.configure('production', function(){
 // Only listen on $ node app.js
 
 if (!module.parent) {
-  app.listen(port);
+  app.listen(process.env.PORT || port);
   console.log("Express server listening on port %d", app.address().port)
 }
 
