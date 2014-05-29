@@ -3,14 +3,19 @@
  * Module dependencies.
  */
 
-var express = require('express') 
-  io = require('socket.io'),
-  json = JSON.stringify;
+var express = require('express');
+var app = express();
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io');
+var json = JSON.stringify;
 
-var app = module.exports = express.createServer();
+//var app = module.exports = express();//express.createServer();
+// module.exports = app;
+module.exports = server;
 app.version = '0.1.0';
 
-var port = 3000;
+var port = process.env.PORT || 3000;
 
 // Configuration
 
@@ -45,11 +50,16 @@ app.configure('production', function(){
 // Only listen on $ node app.js
 
 if (!module.parent) {
+<<<<<<< HEAD
   app.listen(process.env.PORT || port);
   console.log("Express server listening on port %d", app.address().port)
+=======
+  server.listen(port);
+  console.log("Express server listening on port %d", server.address().port)
+>>>>>>> c39afdfea28139e9e60b50451f4305f1892c4d0c
 }
 
-var socket_io  = io.listen(app, {
+var socket_io  = io.listen(server, {
   flashPolicyServer: false// ,
   //   transports: ['htmlfile', 'xhr-multipart', 'xhr-polling', 'jsonp-polling']
 });
