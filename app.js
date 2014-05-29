@@ -50,13 +50,8 @@ app.configure('production', function(){
 // Only listen on $ node app.js
 
 if (!module.parent) {
-<<<<<<< HEAD
   app.listen(process.env.PORT || port);
   console.log("Express server listening on port %d", app.address().port)
-=======
-  server.listen(port);
-  console.log("Express server listening on port %d", server.address().port)
->>>>>>> c39afdfea28139e9e60b50451f4305f1892c4d0c
 }
 
 var socket_io  = io.listen(server, {
