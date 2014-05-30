@@ -4,7 +4,7 @@
   "version": "0.0.15",
   "repository": "https://yuanying@github.com/yuanying/poilot.git",
   "author": "Yuanying <yuan-duostack@fraction.jp> (http://www.fraction.jp/)",
-  "main": "server",
+  "main": "app",
   "directories": {
     "lib": ""
   },
